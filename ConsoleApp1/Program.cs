@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,7 +12,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            int A = 12345678;
+            long A = 11115039;
             long B = A * A;
             int so = 0;
             long C = (B >> 16) % (1 << 15);
@@ -22,13 +23,16 @@ namespace ConsoleApp1
             Console.WriteLine("C = " + Convert.ToString(C, 2).PadLeft(16, '0'));
             // Console.WriteLine("c = " + Convert.ToString(Cinv, 2).PadLeft(16, '0'));
             Console.WriteLine("D = " + Convert.ToString(D, 2).PadLeft(16));
-            Console.WriteLine("C×D");
+            Console.WriteLine("C×D\n");
             Console.WriteLine("Step " + "Product".PadLeft(20).PadRight(32) + "Next".PadLeft(14).PadRight(20));
             long product = 0;
             product += D;
 
             string op = product % 2 + "" + so;
-            string command = "shift";
+            string command = "";
+            if (op == "00" || op == "11") command = "shift";
+            else if (op == "01") command = "add";
+            else if (op == "10") command = "sub";
             Console.WriteLine(0.ToString().PadLeft(4) + "  " +
                     Convert.ToString(((product >> 16) % (1 << 16)), 2).PadLeft(16, '0') +
                     " " + Convert.ToString(((product) % (1 << 16)), 2).PadLeft(16, '0') +
@@ -105,7 +109,4 @@ namespace ConsoleApp1
             return source;
         }
     }
-
-
-
 }
